@@ -90,8 +90,8 @@ public:
     return isNull(j) ? NA_INTEGER : *((int*) &buffers_[j][0]);
   }
 
-  int valueInt64(int j) {
-    return isNull(j) ? NA_INTEGER : *((long long int*) &buffers_[j][0]);
+  double valueInt64(int j) {
+    return isNull(j) ? NA_REAL : (double) *((long long int*) &buffers_[j][0]);
   }
 
   double valueDouble(int j) {
@@ -158,7 +158,7 @@ public:
       INTEGER(x)[i] = valueInt(j);
       break;
     case MY_INT64:
-      INTEGER(x)[i] = valueInt64(j);
+      REAL(x)[i] = valueInt64(j);
       break;
     case MY_DBL:
       REAL(x)[i] = valueDouble(j);
