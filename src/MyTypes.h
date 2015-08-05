@@ -60,10 +60,10 @@ inline MyFieldType variableType(enum_field_types type, bool binary) {
   }
 }
 
-inline std::string typeName(MyFieldType type) {
+inline std::string typeName(MyFieldType type, bool bigint_as_double) {
   switch(type) {
   case MY_INT32:       return "integer";
-  case MY_INT64:       return "double";
+  case MY_INT64:       return bigint_as_double ? "double" : "integer64";
   case MY_DBL:         return "double";
   case MY_STR:         return "string";
   case MY_DATE:        return "Date";
@@ -75,10 +75,10 @@ inline std::string typeName(MyFieldType type) {
   }
 }
 
-inline SEXPTYPE typeSEXP(MyFieldType type) {
+inline SEXPTYPE typeSEXP(MyFieldType type, bool bigint_as_double) {
   switch(type) {
   case MY_INT32:       return INTSXP;
-  case MY_INT64:       return REALSXP;
+  case MY_INT64:       return bigint_as_double ? REALSXP : INTSXP;
   case MY_DBL:         return REALSXP;
   case MY_STR:         return STRSXP;
   case MY_DATE:        return INTSXP;

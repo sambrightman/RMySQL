@@ -90,7 +90,11 @@ public:
     return isNull(j) ? NA_INTEGER : *((int*) &buffers_[j][0]);
   }
 
-  double valueInt64(int j) {
+  int valueInt64(int j) {
+    return isNull(j) ? NA_INTEGER : *((long long int*) &buffers_[j][0]);
+  }
+
+  double valueDoubleFromInt64(int j) {
     return isNull(j) ? NA_REAL : (double) *((long long int*) &buffers_[j][0]);
   }
 
@@ -152,13 +156,16 @@ public:
     return mytime->hour * 3600 + mytime->minute * 60 + mytime->second;
   }
 
-  void setListValue(SEXP x, int i, int j) {
+  void setListValue(SEXP x, int i, int j, bool bigint_as_double) {
     switch(types_[j]) {
     case MY_INT32:
       INTEGER(x)[i] = valueInt(j);
       break;
     case MY_INT64:
-      REAL(x)[i] = valueInt64(j);
+      if (bigint_as_double)
+        REAL(x)[i] = valueDoubleFromInt64(j);
+      else
+        INTEGER(x)[i] = valueInt64(j);
       break;
     case MY_DBL:
       REAL(x)[i] = valueDouble(j);

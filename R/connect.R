@@ -24,6 +24,9 @@ NULL
 #'   for setting authentication parameters (see \code{\link{MySQL}}).
 #' @param default.file string of the filename with MySQL client options.
 #'   Defaults to \code{\$HOME/.my.cnf}
+#' @param bigint.as.double whether to cast MySQL BIGINTs to double instead of
+#'   integer.
+#'   Defaults to \code{FALSE}
 #' @param ... Unused, needed for compatibility with generic.
 #' @export
 #' @examples
@@ -52,10 +55,10 @@ NULL
 setMethod("dbConnect", "MySQLDriver",
   function(drv, dbname = "", username = "", password = "", host = "",
     unix.socket = "", port = 0, client.flag = 0,
-    groups = "rs-dbi", default.file = "", ...) {
+    groups = "rs-dbi", default.file = "", bigint.as.double = FALSE, ...) {
 
     ptr <- connection_create(host, username, password, dbname, port, unix.socket,
-      client.flag, groups, default.file)
+      client.flag, groups, default.file, bigint.as.double)
 
     con <- new("MySQLConnection",
       ptr = ptr,

@@ -11,10 +11,11 @@ XPtr<MyConnectionPtr> connection_create(std::string host,
                                         std::string unix_socket,
                                         unsigned long client_flag,
                                         std::string groups,
-                                        std::string default_file) {
+                                        std::string default_file,
+                                        bool bigint_as_double) {
   MyConnectionPtr* pConn = new MyConnectionPtr(
     new MyConnection(host, user, password, db, port, unix_socket, client_flag,
-      groups, default_file)
+      groups, default_file, bigint_as_double)
   );
   return XPtr<MyConnectionPtr>(pConn, true);
 }

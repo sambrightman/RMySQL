@@ -47,7 +47,8 @@ void inline dfS3(const Rcpp::List& df,
 
 Rcpp::List inline dfCreate(const std::vector<MyFieldType>& types,
                            const std::vector<std::string>& names,
-                           int n) {
+                           int n,
+                           bool bigint_as_double) {
   int p = types.size();
 
   Rcpp::List out(p);
@@ -56,7 +57,7 @@ Rcpp::List inline dfCreate(const std::vector<MyFieldType>& types,
   out.attr("row.names") = Rcpp::IntegerVector::create(NA_INTEGER, -n);
 
   for (int j = 0; j < p; ++j) {
-    out[j] = Rf_allocVector(typeSEXP(types[j]), n);
+    out[j] = Rf_allocVector(typeSEXP(types[j], bigint_as_double), n);
   }
   return out;
 }

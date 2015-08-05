@@ -7,8 +7,8 @@
 using namespace Rcpp;
 
 // connection_create
-XPtr<MyConnectionPtr> connection_create(std::string host, std::string user, std::string password, std::string db, unsigned int port, std::string unix_socket, unsigned long client_flag, std::string groups, std::string default_file);
-RcppExport SEXP RMySQL_connection_create(SEXP hostSEXP, SEXP userSEXP, SEXP passwordSEXP, SEXP dbSEXP, SEXP portSEXP, SEXP unix_socketSEXP, SEXP client_flagSEXP, SEXP groupsSEXP, SEXP default_fileSEXP) {
+XPtr<MyConnectionPtr> connection_create(std::string host, std::string user, std::string password, std::string db, unsigned int port, std::string unix_socket, unsigned long client_flag, std::string groups, std::string default_file, bool bigint_as_double);
+RcppExport SEXP RMySQL_connection_create(SEXP hostSEXP, SEXP userSEXP, SEXP passwordSEXP, SEXP dbSEXP, SEXP portSEXP, SEXP unix_socketSEXP, SEXP client_flagSEXP, SEXP groupsSEXP, SEXP default_fileSEXP, SEXP bigint_as_doubleSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -21,7 +21,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< unsigned long >::type client_flag(client_flagSEXP);
     Rcpp::traits::input_parameter< std::string >::type groups(groupsSEXP);
     Rcpp::traits::input_parameter< std::string >::type default_file(default_fileSEXP);
-    __result = Rcpp::wrap(connection_create(host, user, password, db, port, unix_socket, client_flag, groups, default_file));
+    Rcpp::traits::input_parameter< bool >::type bigint_as_double(bigint_as_doubleSEXP);
+    __result = Rcpp::wrap(connection_create(host, user, password, db, port, unix_socket, client_flag, groups, default_file, bigint_as_double));
     return __result;
 END_RCPP
 }

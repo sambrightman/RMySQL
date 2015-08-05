@@ -112,7 +112,7 @@ public:
     Rcpp::CharacterVector names(nCols_), types(nCols_);
     for (int i = 0; i < nCols_; i++) {
       names[i] = names_[i];
-      types[i] = typeName(types_[i]);
+      types[i] = typeName(types_[i], pConn_->bigIntAsDouble());
     }
 
     Rcpp::List out = Rcpp::List::create(names, types);
@@ -147,10 +147,10 @@ public:
     if (!active())
       Rcpp::stop("Inactive result set");
     if (pSpec_ == NULL)
-      return dfCreate(types_, names_, 0);
+      return dfCreate(types_, names_, 0, pConn_->bigIntAsDouble());
 
     int n = (n_max < 0) ? 100 : n_max;
-    Rcpp::List out = dfCreate(types_, names_, n);
+    Rcpp::List out = dfCreate(types_, names_, n, pConn_->bigIntAsDouble());
     if (n == 0)
       return out;
 
@@ -172,7 +172,7 @@ public:
 
       for (int j = 0; j < nCols_; ++j) {
         // Rcpp::Rcout << i << "," << j << "\n";
-        bindingOutput_.setListValue(out[j], i, j);
+        bindingOutput_.setListValue(out[j], i, j, pConn_->bigIntAsDouble());
       }
 
       fetchRow();

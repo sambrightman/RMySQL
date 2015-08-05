@@ -15,14 +15,16 @@ typedef boost::shared_ptr<MyConnection> MyConnectionPtr;
 class MyConnection : boost::noncopyable {
   MYSQL* pConn_;
   MyResult* pCurrentResult_;
+  bool bigint_as_double_;
 
 public:
 
   MyConnection(std::string host, std::string user, std::string password,
                std::string db, unsigned int port, std::string unix_socket,
                unsigned long client_flag, std::string groups,
-               std::string default_file) :
-    pCurrentResult_(NULL)
+               std::string default_file, bool bigint_as_double) :
+    pCurrentResult_(NULL),
+    bigint_as_double_(bigint_as_double)
   {
 
     pConn_ = mysql_init(NULL);
@@ -88,6 +90,10 @@ public:
       mysql_free_result(res);
 
     return true;
+  }
+
+  bool bigIntAsDouble() {
+    return bigint_as_double_;
   }
 
   ~MyConnection() {
